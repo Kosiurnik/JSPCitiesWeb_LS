@@ -1,3 +1,5 @@
+//TODO porządnie podrasować paginację (przejście po podaniu numeru strony) + testy
+
 import entity.City;
 import utils.Paginator;
 
