@@ -1,6 +1,7 @@
 //TODO porządnie podrasować paginację (przejście po podaniu numeru strony) + testy
 
 import entity.City;
+import org.apache.tomcat.util.buf.StringUtils;
 import utils.Paginator;
 
 import javax.servlet.RequestDispatcher;
@@ -50,7 +51,9 @@ public class CityServlet extends HttpServlet {
         }
         if(uri.endsWith("all")){
             String page = req.getParameter("page");
-            if(page!=null){
+            if(isNumeric(page)){
+                paginator.setCurrentPage(Integer.parseInt(page));
+            }else if(page!=null){
                 switch(page){
                     case "prev":
                         paginator.previousPage();
@@ -71,6 +74,8 @@ public class CityServlet extends HttpServlet {
                     .skip(paginator.getStartIndex())
                     .limit(100).collect(Collectors.toList());
             req.setAttribute("cities",output);
+            req.setAttribute("currentPage",paginator.getCurrentPage());
+            req.setAttribute("lastPage",paginator.getPagesCount()-1);
             req.getRequestDispatcher("/cities.jsp").forward(req,resp);
         }
 
@@ -114,5 +119,14 @@ public class CityServlet extends HttpServlet {
                         e.printStackTrace();
                     }
                 });
+    }
+
+    private static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
     }
 }

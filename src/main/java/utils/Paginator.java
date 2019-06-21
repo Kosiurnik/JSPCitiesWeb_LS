@@ -32,7 +32,15 @@ public class Paginator {
     }
 
     public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+        if(currentPage<0){
+            this.currentPage = 0;
+        }
+        else if(currentPage>getPagesCount()){
+            this.currentPage = getPagesCount();
+        }
+        else{
+            this.currentPage = currentPage;
+        }
     }
 
     public int getCurrentPage() {

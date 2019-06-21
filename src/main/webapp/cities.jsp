@@ -26,10 +26,14 @@
     </span>
 </c:forEach>
 <div class="paginator">
-    <a href="all?page=first">Początek</a>
-    <a href="all?page=prev">Poprzednia strona</a>
-    <a href="all?page=next">Następna strona</a>
-    <a href="all?page=last">Koniec</a>
+    <a href="all?page=0">Początek</a>
+    <c:if test="${requestScope.currentPage!=0}">
+        <a href="all?page=${requestScope.currentPage-1}">Poprzednia strona</a>
+    </c:if>
+    <c:if test="${requestScope.currentPage!=requestScope.lastPage}">
+        <a href="all?page=${requestScope.currentPage+1}">Następna strona</a>
+    </c:if>
+    <a href="all?page=${requestScope.lastPage}">Koniec</a>
 </div>
 </body>
 </html>
